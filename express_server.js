@@ -17,6 +17,17 @@ const generateRandomString = () => {
   return Math.random().toString(36).substring(6);
 };
 
+//Delete Method to delete a url from the database.
+app.post('/urls/:id/delete', (req, res) => {
+  const urlId = req.params.id;
+
+  // delete that url from the database
+  delete urlDatabase[urlId];
+
+  // redirect to the list of urls
+  res.redirect("/urls");
+});
+
 app.post("/urls", (req, res) => {
   console.log(req.body); // Log the POST request body to the console
   const shortURL = generateRandomString();
@@ -43,14 +54,15 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+app.get("/", (req, res) => {
+  res.send("Hello!");
+});
 
+/*
+previous exercises:
 app.get("/hello", (req, res) => {
   const templateVars = { greeting: "Hello World!" };
   res.render("hello_world", templateVars);
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello!");
 });
 
 app.get("/urls.json", (req, res) => {
@@ -64,7 +76,7 @@ app.get("/hello", (req, res) => {
 app.get("/set", (req, res) => {
   const a = 1;
   res.send(`a = ${a}`);
-});
+});*/
  
 
 app.listen(PORT, () => {
