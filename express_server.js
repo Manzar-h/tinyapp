@@ -28,6 +28,22 @@ app.post('/urls/:id/delete', (req, res) => {
   res.redirect("/urls");
 });
 
+// create the update route => when the user clicks on update from the show page
+app.post('/urls/:id', (req, res) => {
+  // extract the id from the path of the url
+  const urlId = req.params.id;
+
+  // extract the user input from the form (post data)
+  // req.body
+  const longURL = req.body.longURL;
+
+  // update our db for that url
+  urlDatabase[urlId] = longURL;
+  res.redirect(`/urls`);
+});
+
+
+
 app.post("/urls", (req, res) => {
   console.log(req.body); // Log the POST request body to the console
   const shortURL = generateRandomString();
