@@ -68,13 +68,13 @@ app.get("/urls", (req, res) => {
 
 app.get("/urls/new", (req, res) => {
   const templateVars = {username: req.cookies["username"]};//username cookie
-      res.render("urls_new", templateVars);
+  res.render("urls_new", templateVars);
 });
 
 app.get("/urls/:id", (req, res) => {
-  const templateVars = { id: req.params.id, 
-  longURL: urlDatabase[req.params.id],
-  username: req.cookies["username"]}; // username cookie
+  const templateVars = { id: req.params.id,
+    longURL: urlDatabase[req.params.id],
+    username: req.cookies["username"]}; // username cookie
   res.render("urls_show", templateVars);
 });
 
