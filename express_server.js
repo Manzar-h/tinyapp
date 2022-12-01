@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
-console.log("hello"):
+
 const app = express();
 const PORT = 8080; // default port 8080
 
@@ -11,17 +11,32 @@ app.set("view engine", "ejs");
 app.use(cookieParser());
 app.use(morgan('dev'));
 
+app.use(express.urlencoded({ extended: true }));
+
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
 
-app.use(express.urlencoded({ extended: true }));
+//User database for Registering New Users
+const users = {
+  userRandomID: {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur",
+  },
+  user2RandomID: {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "dishwasher-funk",
+  },
+};
 
 //Returns a string of 6 random alphanumeric characters:
 const generateRandomString = () => {
   return Math.random().toString(36).substring(6);
 };
+
 
 //Delete Method to delete a url from the database.
 app.post('/urls/:id/delete', (req, res) => {
@@ -91,6 +106,28 @@ app.post('/logout', (req, res) => {
   res.redirect('/urls');
 });
 
+// Method for registartion form
+app.get("/register", (req, res) => {
+  const templateVars = {
+    username: req.cookies["username"],
+  };
+  res.render("register", templateVars);
+});
+
+app.post('/register', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  res.cookie('email', email);
+  const userId = generateRandomString();
+  users.userId = {
+    id: userId,
+    email: email,
+    password: password
+  };
+  res.cookie('userId', userId);
+  console.log(users);
+    res.redirect('/urls');
+});
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -102,15 +139,12 @@ app.get("/hello", (req, res) => {
   const templateVars = { greeting: "Hello World!" };
   res.render("hello_world", templateVars);
 });
-
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
-
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
-
 app.get("/set", (req, res) => {
   const a = 1;
   res.send(`a = ${a}`);
