@@ -23,6 +23,7 @@ const generateRandomString = () => {
   return Math.random().toString(36).substring(6);
 };
 
+
 //Delete Method to delete a url from the database.
 app.post('/urls/:id/delete', (req, res) => {
   const urlId = req.params.id;
@@ -91,6 +92,13 @@ app.post('/logout', (req, res) => {
   res.redirect('/urls');
 });
 
+// Method for registartion form
+app.get("/register", (req, res) => {
+  const templateVars = {
+    username: req.cookies["username"],
+  };
+  res.render("register", templateVars);
+});
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -102,15 +110,12 @@ app.get("/hello", (req, res) => {
   const templateVars = { greeting: "Hello World!" };
   res.render("hello_world", templateVars);
 });
-
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
-
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
-
 app.get("/set", (req, res) => {
   const a = 1;
   res.send(`a = ${a}`);
