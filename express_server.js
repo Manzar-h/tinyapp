@@ -32,7 +32,6 @@ const users = {
   },
 };
 
-
 //Returns a string of 6 random alphanumeric characters:
 const generateRandomString = () => {
   return Math.random().toString(36).substring(6);
@@ -48,7 +47,6 @@ const getUserByEmail = function(email) {
   }
   return foundUser;
 };
-
 
 //Delete Method to delete a url from the database.
 app.post('/urls/:id/delete', (req, res) => {
@@ -126,29 +124,34 @@ app.get("/register", (req, res) => {
   res.render("register", templateVars);
 });
 
-app.post('/register', (req, res) => {
+
+
+//Method for Login form
+app.get("/login", (req, res) => {
+  const userID = req.cookies['userId'];
+  const user = users[userID];
+  const templateVars = { user, urls: urlDatabase };
+  res.render("login", templateVars);
+});
+
+app.post('/login', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   // are email and/or password undefined
-    if (!email || !password) {
-      return res.status(400).send('Please provide an email AND a password');
-    }
-    if (getUserByEmail(email)) {
-      return res.status(400).send("You've already registered this email!");
-    }
-  res.cookie('email', email);
-  const userId = generateRandomString();
-  users.userId = {
-    id: userId,
-    email: email,
-    password: password
-  };
-  console.log(users);
-  res.cookie('userId', userId);  
-    res.redirect('/urls');
+  if (!email || !password) {
+    return res.status(400).send('Please provide an email AND a password');
+  }
+  const user = getUserByEmail(email);
+  if (!user) {
+    return res.status(400).send("Email not registered yet!");
+  }
+  if (user.password !== password) {
+    return res.status(400).send("Email or password is incorrect!");
+  }
+  const userId = user.id;
+  res.cookie('userId', userId);
+  res.redirect('/urls');
 });
-
-
 
 app.get("/", (req, res) => {
   res.send("Hello!");
