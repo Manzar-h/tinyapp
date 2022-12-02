@@ -32,9 +32,21 @@ const users = {
   },
 };
 
+
 //Returns a string of 6 random alphanumeric characters:
 const generateRandomString = () => {
   return Math.random().toString(36).substring(6);
+};
+
+//Helper Function:
+const getUserByEmail = function(email) {
+  let foundUser = null;
+  for (let userId in users) {
+    if (email === users[userId].email) {
+      foundUser = userId;
+    }
+  }
+  return foundUser;
 };
 
 
@@ -117,6 +129,13 @@ app.get("/register", (req, res) => {
 app.post('/register', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+  // are email and/or password undefined
+    if (!email || !password) {
+      return res.status(400).send('Please provide an email AND a password');
+    }
+    if (getUserByEmail(email)) {
+      return res.status(400).send("You've already registered this email!");
+    }
   res.cookie('email', email);
   const userId = generateRandomString();
   users.userId = {
@@ -124,10 +143,12 @@ app.post('/register', (req, res) => {
     email: email,
     password: password
   };
-  res.cookie('userId', userId);
   console.log(users);
+  res.cookie('userId', userId);  
     res.redirect('/urls');
 });
+
+
 
 app.get("/", (req, res) => {
   res.send("Hello!");
@@ -145,11 +166,7 @@ app.get("/urls.json", (req, res) => {
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
-app.get("/set", (req, res) => {
-  const a = 1;
-  res.send(`a = ${a}`);
-});*/
- 
+*/
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
