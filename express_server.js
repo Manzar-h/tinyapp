@@ -54,6 +54,10 @@ app.get("/", (req, res) => {
 
 app.post("/urls", (req, res) => {
   console.log(req.body); // Log the POST request body to the console
+  const user_id = req.cookies['user_id'];
+  if (!user_id) {
+    return res.status(400).send("Please login to update!");
+  }
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = req.body.longURL;
   res.redirect(`/urls/${shortURL}`);
@@ -77,7 +81,11 @@ app.post('/urls/:id', (req, res) => {
 
 app.get("/u/:id", (req, res) => {
   const longURL = urlDatabase[req.params.id];
-  res.redirect(longURL);
+  if (!longURL) {
+    res.status(400).send("This short url not found!");
+  } else {
+      res.redirect(longURL);
+  }
 });
 
 // Following three get methods update for Cookies in Expres Assignment
@@ -90,6 +98,9 @@ app.get("/urls", (req, res) => {
 
 app.get("/urls/new", (req, res) => {
   const user_id = req.cookies['user_id'];
+  if (!user_id) {
+    return res.redirect('/login');
+  }
   const user = users[user_id];
   const templateVars = { user };
   res.render("urls_new", templateVars);
@@ -136,7 +147,7 @@ app.post('/register', (req, res) => {
     password: password
   };
   users[user_id] = user;
-  res.cookie('user_id', user_id);
+  res.cookie('user_id', user);
   res.redirect('/urls');
 });
 
