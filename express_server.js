@@ -82,7 +82,7 @@ app.post('/urls/:id', (req, res) => {
 app.get("/u/:id", (req, res) => {
   const longURL = urlDatabase[req.params.id];
   if (!longURL) {
-    res.status(400).send("This short url not found!");
+    res.status(400).send("Short url not found!");
   } else {
     res.redirect(longURL);
   }
