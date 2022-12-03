@@ -84,7 +84,7 @@ app.get("/u/:id", (req, res) => {
   if (!longURL) {
     res.status(400).send("This short url not found!");
   } else {
-      res.redirect(longURL);
+    res.redirect(longURL);
   }
 });
 
