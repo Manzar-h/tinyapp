@@ -23,12 +23,12 @@ const users = {
   userRandomID: {
     id: "userRandomID",
     email: "user@example.com",
-    password: "purple-monkey-dinosaur",
+    password: "abcd",
   },
   user2RandomID: {
     id: "user2RandomID",
     email: "user2@example.com",
-    password: "dishwasher-funk",
+    password: "1234",
   },
 };
 
@@ -42,7 +42,7 @@ const getUserByEmail = function(email) {
   let foundUser = null;
   for (let userId in users) {
     if (email === users[userId].email) {
-      foundUser = userId;
+      foundUser = users[userId];
     }
   }
   return foundUser;
