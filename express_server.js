@@ -168,10 +168,10 @@ app.post('/register', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   if (!email || !password) {
-    return res.status(400).send(`<h2>Please provide an email AND a password!<h2>Please Try Again: <a href ="/register">Registration</a>`);
+    return res.status(400).send(`<h2>Please provide an email AND a password!<h2>Please Try Again: <a href ="/register">Register</a>`);
   }
   if (getUserByEmail(email, users)) {
-    return res.status(400).send(`<h2>Email already registerd.!<h2>Please Try Again: <a href ="/register">Registration</a>`);
+    return res.status(400).send(`<h2>Email already registerd.!<h2>Please Try Again: <a href ="/register">Register</a>`);
   }
   const user_id = generateRandomString();
   req.session.user_id = user_id;
