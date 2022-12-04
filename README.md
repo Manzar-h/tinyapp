@@ -4,9 +4,13 @@ TinyApp is a full stack web application built with Node and Express that allows 
 
 ## Final Product
 
+### Screenshot of URLs page
 !["Screenshot of URLs page"](https://github.com/ManzarTelus/tinyapp/blob/feature/assignment/docs/urls-page.PNG)
-!["Screenshot of Main(login) page](https://github.com/ManzarTelus/tinyapp/blob/feature/assignment/docs/login-page.PNG)
-!["Screenshot of Creat URL page"](https://github.com/ManzarTelus/tinyapp/blob/feature/assignment/docs/addURL-page.PNG)
+
+### Screenshot of Main(login) page
+!["Screenshot of Main(login) page"](https://github.com/ManzarTelus/tinyapp/blob/feature/assignment/docs/login-page.PNG)
+### Screenshot of Create URL page
+!["Screenshot of Create URL page"](https://github.com/ManzarTelus/tinyapp/blob/feature/assignment/docs/addURL-page.PNG)
 
 ## Dependencies
 
