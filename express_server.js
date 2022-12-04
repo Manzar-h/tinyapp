@@ -46,16 +46,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-<<<<<<< HEAD
-  console.log(req.body); // Log the POST request body to the console
-  const user_id = req.cookies['user_id'];
-  if (!user_id) {
-    return res.status(400).send("Please login to update!");
-=======
   const user_id = req.session['user_id'];
   if (!user_id) {
     return res.status(400).send(`<h2>Please login to update! <h2> First Login!<a href ="/login">Login</a>`);
->>>>>>> feature/assignment
   }
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = {longURL: req.body.longURL, userID: user_id};
@@ -98,13 +91,6 @@ app.post('/urls/:id', (req, res) => {
 });
 
 app.get("/u/:id", (req, res) => {
-<<<<<<< HEAD
-  const longURL = urlDatabase[req.params.id];
-  if (!longURL) {
-    res.status(400).send("Short url not found!");
-  } else {
-    res.redirect(longURL);
-=======
   if (urlDatabase[req.params.id]) {
     const longURL = urlDatabase[req.params.id].longURL;
     if (!longURL) {
@@ -114,7 +100,6 @@ app.get("/u/:id", (req, res) => {
     }
   } else {
     res.status(400).send(`<h2>This short url not found!<h2> <a href ="/urls">Please Try Again</a>`);
->>>>>>> feature/assignment
   }
 });
 
@@ -130,14 +115,9 @@ app.get("/urls", (req, res) => {
 });
 
 app.get("/urls/new", (req, res) => {
-<<<<<<< HEAD
-  const user_id = req.cookies['user_id'];
-  if (!user_id) {
-=======
   const user_id = req.session['user_id'];
   if (!user_id) {
     res.send(`<h2>Please Login!<h2> <a href ="/login">Login:</a>`);
->>>>>>> feature/assignment
     return res.redirect('/login');
   }
   const user = users[user_id];
@@ -202,10 +182,6 @@ app.post('/register', (req, res) => {
     password: hashedPassword
   };
   users[user_id] = user;
-<<<<<<< HEAD
-  res.cookie('user_id', user);
-=======
->>>>>>> feature/assignment
   res.redirect('/urls');
 });
 
